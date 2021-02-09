@@ -8,3 +8,6 @@
 -Swagger is implemented.
 -Setted up in a Docker container.
 -Uses RabbitMQ.
+
+-Using API's, the consumers are unknowns and existing features should not be broken.
+-To extend API's => use versioning (v1, v2, etc) => Only when new changes were to break the functionality.
