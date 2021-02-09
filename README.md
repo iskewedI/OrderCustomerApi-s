@@ -11,3 +11,23 @@
 
 -Using API's, the consumers are unknowns and existing features should not be broken.
 -To extend API's => use versioning (v1, v2, etc) => Only when new changes were to break the functionality.
+
+-Controllers =>
+    -Only call different services and return a model or status to the client.
+    -They don't do any business logic.
+-Validators
+    -Used to validate user input.
+    -FluentValidations is used -> NuGet package.
+    -Validators inherits from AbstractValidator and T is the clas of the model to validate.
+-Data 
+    -Contains everything needed to access the DB.
+    -The DB context is created for every request.
+-Domain
+    -Contains all entities and no business logic
+-Messaging.Send
+    -Contains everything I need to send Customer objects to a RabbitMQ queue.
+-Service
+    -Splitted into Command and Query -> CQRS separate concerns of reading and writing data.
+    -Commands WRITE data and Queries READ data.
+    -Both has an action that should be executed and its particular handler.
+    -The handler often calls the repository to retrieve or change data.

@@ -4,4 +4,15 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+    <PackageReference Include="MediatR" Version="9.0.0" />
+    <PackageReference Include="RabbitMQ.Client" Version="6.2.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CustomerApi.Data\CustomerApi.Data.csproj" />
+    <ProjectReference Include="..\CustomerApi.Messaging.Send\CustomerApi.Messaging.Send.csproj" />
+  </ItemGroup>
+
 </Project>
