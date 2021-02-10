@@ -3,13 +3,14 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CustomerApi.Models.v1
 {
-    public class CreateCustomerModel
+    public class UpdateCustomerModel
     {
         [Required]
-        public string FirstName { get; set; }
+        public Guid Id { get; set; }
 
-        [Required]
-        public string LastName { get; set; }
+        public string? FirstName { get; set; }
+
+        public string? LastName { get; set; }
 
         public DateTime? Birthday { get; set; }
 

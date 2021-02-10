@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using CustomerApi.Data.Entities;
@@ -44,9 +45,11 @@ namespace CustomerApi.Controllers.v1
                 /*  _mediator.Send => Used to call a service using CQRS and the Mediator pattern.
                     A service is called and a Customer or Bad Request is returned.
                  */
+                Customer customer = _mapper.Map<Customer>(createCustomerModel);
+
                 return await _mediator.Send(new CreateCustomerCommand
                 {
-                    Customer = _mapper.Map<Customer>(createCustomerModel)
+                    Customer = customer
                 });
             }
             catch (Exception ex)
@@ -54,5 +57,43 @@ namespace CustomerApi.Controllers.v1
                 return BadRequest(ex.Message);
             }
         }
+
+        /// <summary>
+        /// Action to update a customer in the database.
+        /// </summary>
+        /// <param name="updateCustomerModel">Model to update a customer</param>
+        /// <returns>Returns the updated customer</returns>
+        /// <response code="200">Returned if the customer was updated</response>
+        /// <response code="400">Returned if the model couldn't be parsed or the customer couldn't be updated</response>
+        /// <response code="422">Returned when the validation failed</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
+        [HttpPut]
+        public async Task<ActionResult<Customer>> Customer(UpdateCustomerModel updateCustomerModel)
+        {
+            try
+            { 
+                Customer customer = await _mediator.Send(new GetCustomerByIdQuery
+                {
+                    Id = updateCustomerModel.Id
+                });
+
+                if(customer == null)
+                {
+                    return BadRequest($"No customer found with the id {updateCustomerModel.Id}");
+                }
+
+                return await _mediator.Send(new UpdateCustomerCommand
+                {
+                    Customer = _mapper.Map(updateCustomerModel, customer)
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 }

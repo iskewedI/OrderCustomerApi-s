@@ -4,16 +4,20 @@ using FluentValidation;
 
 namespace CustomerApi.Validators.v1
 {
-    public class CreateCustomerModelValidator : AbstractValidator<CreateCustomerModel>
+    public class UpdateCustomerModelValidator : AbstractValidator<UpdateCustomerModel>
     {
-        public CreateCustomerModelValidator()
+        public UpdateCustomerModelValidator()
         {
+            RuleFor(x => x.Id)
+                .NotNull()
+                .WithMessage("The ID is required");
+
             RuleFor(x => x.FirstName)
                 .NotNull()
                 .WithMessage("The first name must be at least 2 character long");
 
             RuleFor(x => x.LastName)
-                .NotNull()
+                .MinimumLength(2)
                 .WithMessage("The last name must be at least 2 character long");
 
             RuleFor(x => x.Birthday)

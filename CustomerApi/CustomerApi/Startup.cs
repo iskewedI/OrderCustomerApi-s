@@ -58,7 +58,9 @@ namespace CustomerApi
                     Description = "A simple API to create or update customers",
                     Contact = new OpenApiContact
                     {
-                        Name = "Joaquin"
+                        Name = "Wolfgang Ofner",
+                        Email = "Wolfgang@programmingwithwolfgang.com"
+                        //Url = new Uri("https://www.programmingwithwolfgang.com/")
                     }
                 });
 
@@ -90,12 +92,12 @@ namespace CustomerApi
             services.AddTransient<ICustomerRepository, CustomerRepository>();
 
             services.AddTransient<IValidator<CreateCustomerModel>, CreateCustomerModelValidator>();
-            //services.AddTransient<IValidator<UpdateCustomerModel>, UpdateCustomerModelValidator>();
+            services.AddTransient<IValidator<UpdateCustomerModel>, UpdateCustomerModelValidator>();
 
             services.AddSingleton<ICustomerUpdateSender, CustomerUpdateSender>();
 
             services.AddTransient<IRequestHandler<CreateCustomerCommand, Customer>, CreateCustomerCommandHandler>();
-            //services.AddTransient<IRequestHandler<UpdateCustomerCommand, Customer>, UpdateCustomerCommandHandler>();
+            services.AddTransient<IRequestHandler<UpdateCustomerCommand, Customer>, UpdateCustomerCommandHandler>();
             services.AddTransient<IRequestHandler<GetCustomerByIdQuery, Customer>, GetCustomerByIdQueryHandler>();
         }
 
